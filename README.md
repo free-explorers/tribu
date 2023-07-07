@@ -22,7 +22,7 @@ Tribu is an open-source mobile application that allows you to connect and hang o
 
 ### Installation
 
-1. Download the Tribu app from the App Store or Google Play Store.
+1. Download the Tribu app from the [App Store](https://apps.apple.com/us/app/tribu-lets-live-together/id1620848629?platform=iphone) or [Google Play Store](https://play.google.com/store/apps/details?id=com.tribu.default).
 2. Open the app on your device.
 
 ## Contributing
@@ -35,7 +35,7 @@ Tribu is released under the [AGPL License](LICENSE).
 
 ## Contact
 
-For any inquiries or support, please contact us at [support@tribuapp.com](mailto:adrien@pesler.be).
+For any inquiries or support, please contact us at [adrien@pesler.be](mailto:adrien@pesler.be).
 
 ---
 
