@@ -1,0 +1,5 @@
+if [ "$1" == "dev" ]; then
+    sed -i 's/com.tribu.default/com.tribu.dev/g' android/app/build.gradle ios/Runner/GoogleService-Info.plist
+else
+    sed -i 's/com.tribu.dev/com.tribu.default/g' android/app/build.gradle ios/Runner/GoogleService-Info.plist
+fi

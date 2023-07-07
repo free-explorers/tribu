@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "dart-code.flutter",
+    "luanpotter.dart-import",
+    "localizely.flutter-intl",
+    "robert-brunhage.flutter-riverpod-snippets",
+    "jeroen-meijer.pubspec-assist",
+    "blaxou.freezed"
+  ]
+}

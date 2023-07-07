@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string
+        name="compose_shortcut_short_label1"
+        >test</string>
+    <string
+        name="compose_shortcut_long_label1"
+        >test long</string>
+    <string
+        name="compose_disabled_message1"
+        >test disabled</string>
+</resources>
