@@ -61,7 +61,6 @@ class WebrtcManager with WidgetsBindingObserver {
         } else if (description.type == 'answer') {
           await onAnswer(message.fromUserId, description);
         }
-        break;
       case 'RTCIceCandidate':
         final candidate = RTCIceCandidate(
           payload['candidate'] as String?,
@@ -69,7 +68,6 @@ class WebrtcManager with WidgetsBindingObserver {
           payload['sdpMLineIndex'] as int?,
         );
         await onCandidate(message.fromUserId, candidate);
-        break;
     }
   }
 
@@ -297,7 +295,7 @@ class WebrtcManager with WidgetsBindingObserver {
   };
 
   static const loopbackConstraints = <String, dynamic>{
-    'mandatory': <dynamic>{},
+    'mandatory': <String, dynamic>{},
     'optional': [
       {'DtlsSrtpKeyAgreement': true},
     ],

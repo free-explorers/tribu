@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tribu/utils/color.dart';
 
-const tribuBlue = Color(0xFF013d50);
+const tribuBlue = Color(0xFF003e51);
 const tribuOrange = Color(0xFFffb25f);
 
 final lightThemeProvider = Provider((ref) {

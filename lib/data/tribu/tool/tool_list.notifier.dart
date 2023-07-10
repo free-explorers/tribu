@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:rxdart/streams.dart';
 import 'package:tribu/data/manager.abstract.dart';
 import 'package:tribu/data/tribu/tool/tool.model.dart';
 
@@ -11,10 +12,12 @@ class ToolListNotifier extends StateNotifier<List<Tool>> with Manager {
   ) {
     var stream = const Stream<List<Tool>>.empty();
     if (toolIdList.isNotEmpty) {
-      stream = getCollection(tribuId, encryptionKey)
-          .where(FieldPath.documentId, whereIn: toolIdList)
-          .snapshots()
-          .map((event) => event.docs.map((e) => e.data()).toList());
+      stream = CombineLatestStream(
+        toolIdList.map(
+          (e) => getCollection(tribuId, encryptionKey).doc(e).snapshots(),
+        ),
+        (values) => values.map((e) => e.data()!).toList(),
+      );
     }
 
     final component =
