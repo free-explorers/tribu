@@ -113,7 +113,7 @@ Future<void> migration1to2(String tribuId) async {
                   .where(
                     (profile) =>
                         !(profile.disabled ?? false) &&
-                        profile.mergedInto == null, /*  */
+                        profile.mergedInto == null,
                   )
                   .map((e) => e.id)
                   .toList(),

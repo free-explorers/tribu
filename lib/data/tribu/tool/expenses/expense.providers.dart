@@ -32,6 +32,7 @@ final expenseResumeListProvider = Provider.family
   for (final profile in profileList) {
     expenseResumeMap[profile.id] = ExpenseResume(profileId: profile.id);
   }
+
   ExpenseResume getResume(String profileId) {
     if (!expenseResumeMap.containsKey(profileId)) {
       expenseResumeMap[profileId] = ExpenseResume(profileId: profileId);
