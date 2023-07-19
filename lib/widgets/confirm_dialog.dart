@@ -5,9 +5,9 @@ import 'package:tribu/generated/l10n.dart';
 import 'package:tribu/theme.dart';
 
 class ConfirmDialog extends HookConsumerWidget {
-  const ConfirmDialog(this.onConfirmed, {super.key});
+  const ConfirmDialog(this.onConfirmed, {this.title, super.key});
   final Future<dynamic> Function() onConfirmed;
-
+  final String? title;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final primaryTheme = ref.watch(primaryThemeProvider);
@@ -23,7 +23,7 @@ class ConfirmDialog extends HookConsumerWidget {
     return Theme(
       data: primaryTheme,
       child: AlertDialog(
-        title: Text(S.of(context).confirmDialogTitle),
+        title: Text(title ?? S.of(context).confirmDialogTitle),
         actions: [
           TextButton(
             child: Text(S.of(context).cancelAction),

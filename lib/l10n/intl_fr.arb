@@ -112,5 +112,8 @@
   "eventsPageTitle": "Événements",
   "titlePlaceholder": "Titre",
   "attendeesPlaceholder": "Participants",
-  "confirmChangesAction": "Confirmer les modifications"
+  "confirmChangesAction": "Confirmer les modifications",
+  "viewAllProfilesAction": "Voir tous les profiles",
+  "unmergeConfirmationAction": "Souhaites-tu défusionner ce profile?",
+  "unArchiveProfileConfirmationAction": "Souhaites-tu restorer ce profile?"
 }

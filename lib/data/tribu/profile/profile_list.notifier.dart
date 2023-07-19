@@ -32,9 +32,11 @@ class ProfileListNotifier extends StateNotifier<List<Profile>> with Manager {
     this.initialized,
   ) : super([]) {
     onDisposeList.add(
-      profileListStream.listen((event) {
-        allProfileMapById = {for (var profile in event) profile.id: profile};
-        state = event
+      profileListStream.listen((profileList) {
+        allProfileMapById = {
+          for (var profile in profileList) profile.id: profile
+        };
+        state = profileList
             .where(
               (element) =>
                   element.mergedInto == null && element.disabled == null,

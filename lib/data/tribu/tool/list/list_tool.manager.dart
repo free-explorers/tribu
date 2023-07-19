@@ -10,7 +10,7 @@ class ListToolManager extends StateNotifier<List<ListItem>> with Manager {
     final stream = getCollection(tribuId, toolId, encryptionKey)
         .orderBy('createdAt', descending: true)
         .snapshots()
-        .map((event) => event.docs.map((e) => e.data()).toList());
+        .map((listItems) => listItems.docs.map((e) => e.data()).toList());
     final component = ListToolManager._(tribuId, toolId, encryptionKey, stream);
 
     return component;

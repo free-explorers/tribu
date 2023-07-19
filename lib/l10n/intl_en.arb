@@ -113,5 +113,8 @@
   "eventsPageTitle": "Events",
   "titlePlaceholder": "Title",
   "attendeesPlaceholder": "Attendees",
-  "confirmChangesAction": "Confirm changes"
+  "confirmChangesAction": "Confirm changes",
+  "viewAllProfilesAction": "View all profiles",
+  "unmergeConfirmationAction": "Do you want to unmerged this profile?",
+  "unArchiveProfileConfirmationAction": "Do you want to restore this profile?"
 }
