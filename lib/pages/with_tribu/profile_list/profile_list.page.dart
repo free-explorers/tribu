@@ -110,6 +110,7 @@ class ProfileListPage extends HookConsumerWidget {
               filteredProfileListState: filteredProfileListState,
               profileSelectedListState: profileSelectedListState,
               title: title,
+              onMultiSelectionConfirmed: onMultiSelectionConfirmed,
             );
           case ProfileListAction.merge:
             return MergeActionProfileList(

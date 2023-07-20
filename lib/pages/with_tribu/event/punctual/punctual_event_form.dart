@@ -185,7 +185,8 @@ class PunctualEventForm extends HookConsumerWidget {
             ),
             initialValue: attendeesMapState.value.keys.toList(),
             onMultiSelectionChange: (userIdList) {
-              final currentAttendeesMap = attendeesMapState.value;
+              final currentAttendeesMap =
+                  Map<String, bool?>.from(attendeesMapState.value);
               final currentSet = currentAttendeesMap.keys.toSet();
               final selectionSet = userIdList.toSet();
               final newSet = selectionSet.difference(currentSet);
@@ -199,6 +200,7 @@ class PunctualEventForm extends HookConsumerWidget {
                 currentAttendeesMap[userId] = false;
               }
               attendeesMapState.value = Map.from(currentAttendeesMap);
+              whenChanged();
             },
           )
         ],
