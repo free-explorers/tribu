@@ -44,7 +44,7 @@ class ChatTextInput extends HookWidget {
         .titleMedium!
         .copyWith(color: Theme.of(context).colorScheme.onPrimary);
 
-    final yOffset = useState(0);
+    final yOffset = useState<double>(0);
     final textField = TextField(
       textCapitalization: TextCapitalization.sentences,
       controller: textEditingController,
