@@ -14,7 +14,6 @@ import 'package:tribu/pages/with_tribu/event/tool/expenses/balance_amount.widget
 import 'package:tribu/theme.dart';
 import 'package:tribu/widgets/currency/currency.widget.dart';
 import 'package:tribu/widgets/profile/profile_viewer.widget.dart';
-import 'package:tribu/widgets/utils/simple_column_list.dart';
 
 class ExpenseSmartBalancePage extends HookConsumerWidget {
   const ExpenseSmartBalancePage({
@@ -84,7 +83,7 @@ class ExpenseSmartBalancePage extends HookConsumerWidget {
           padding: const EdgeInsets.symmetric(
             horizontal: 16,
           ),
-          child: SimpleColumnList(
+          child: ListView.separated(
             itemCount: payBackMap.length,
             separatorBuilder: (context, index) => const SizedBox(
               height: 8,
