@@ -86,7 +86,5 @@ final profileNotificationObserver =
 
 final ownProfileProvider =
     Provider.family.autoDispose<Profile, String>((ref, String tribuId) {
-  return ref.watch(profileListProvider(tribuId)).firstWhere(
-        (profile) => profile.id == ref.watch(currentUserProvider)!.uid,
-      );
+  return ref.watch(profileListProvider(tribuId).notifier).getMyProfile();
 });

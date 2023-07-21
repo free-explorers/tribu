@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -7,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:tribu/data/tribu/event/event.providers.dart';
 import 'package:tribu/data/tribu/profile/profile.providers.dart';
 import 'package:tribu/data/tribu/tool/expenses/expense/expense.model.dart';
+import 'package:tribu/data/tribu/tribu.providers.dart';
 import 'package:tribu/generated/l10n.dart';
 import 'package:tribu/widgets/profile/profile_dropdown_multiple.dart';
 import 'package:tribu/widgets/text_field.dart';
@@ -54,9 +54,9 @@ class EditExpenseDialog extends HookConsumerWidget {
         amountFocusNode.removeListener(cb);
       };
     });
-
-    final paidByState =
-        useState(expense?.paidBy ?? FirebaseAuth.instance.currentUser!.uid);
+    final tribuId = ref.watch(tribuIdSelectedProvider)!;
+    final myProfile = ref.watch(ownProfileProvider(tribuId));
+    final paidByState = useState(expense?.paidBy ?? myProfile.id);
 
     final event = ref.watch(eventProvider(eventId))!;
     final eventAttendeesProfileList = ref.read(

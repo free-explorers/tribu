@@ -55,21 +55,24 @@ class ProfileListPage extends HookConsumerWidget {
     final currentAction = useState(determineDefaultAction());
     final tribuId = ref.watch(tribuIdSelectedProvider)!;
     final profileList = ref.watch(profileListProvider(tribuId));
+    final profileListNotifier =
+        ref.watch(profileListProvider(tribuId).notifier);
     final filteredProfileListState = useState(filterProfileList(profileList));
     useEffect(
       () {
-        filteredProfileListState.value = filterProfileList(profileList);
+        filteredProfileListState.value = (initialProfileIdSelectedList
+                .map(profileListNotifier.getProfile)
+                .toSet()
+              ..addAll(filterProfileList(profileList)))
+            .toList();
         return null;
       },
       [profileList],
     );
-    final profileListNotifier =
-        ref.watch(profileListProvider(tribuId).notifier);
+
     final primaryTheme = ref.watch(primaryThemeProvider);
     final profileSelectedListState = useState(
-      filteredProfileListState.value
-          .where((profile) => initialProfileIdSelectedList.contains(profile.id))
-          .toList(),
+      initialProfileIdSelectedList.map(profileListNotifier.getProfile).toList(),
     );
 
     void resetProfilePage() {

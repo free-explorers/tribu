@@ -35,15 +35,12 @@ class AttendeeListPage extends HookConsumerWidget {
         padding: const EdgeInsets.all(16),
         child: SimpleColumnList(
           itemBuilder: (context, index) {
-            final attendeeEntry = attendeesMap.entries.elementAt(index);
-            final profile = profileList.firstWhere(
-              (element) => element.id == attendeeEntry.key,
-            );
+            final profile = profileList[index];
             return Card(
               child: SwitchListTile.adaptive(
                 secondary: ProfileAvatar(profile),
                 title: Text(profile.name),
-                value: attendeeEntry.value ?? false,
+                value: attendeesMap[profile.id] ?? false,
                 onChanged: (value) {
                   ref
                       .read(eventListProvider(tribuId).notifier)
@@ -59,7 +56,7 @@ class AttendeeListPage extends HookConsumerWidget {
           separatorBuilder: (context, index) => const SizedBox(
             height: 8,
           ),
-          itemCount: attendeesMap.length,
+          itemCount: profileList.length,
         ),
       ),
     );

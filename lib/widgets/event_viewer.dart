@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -7,6 +6,7 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:tribu/data/tribu/event/event.model.dart';
 import 'package:tribu/data/tribu/event/event.providers.dart';
 import 'package:tribu/data/tribu/event/event_date_proposal/event_date_proposal.model.dart';
+import 'package:tribu/data/tribu/profile/profile.model.dart';
 import 'package:tribu/data/tribu/profile/profile.providers.dart';
 import 'package:tribu/data/tribu/tool/tool.providers.dart';
 import 'package:tribu/data/tribu/tribu.providers.dart';
@@ -50,8 +50,10 @@ class EventViewer extends HookConsumerWidget {
       )!;
     }
 
-    final showPlannedToComeCard = event is! PermanentEvent &&
-        getAttendeesMap()[FirebaseAuth.instance.currentUser!.uid] != true;
+    final myProfile = ref.watch(ownProfileProvider(tribuId));
+
+    final showPlannedToComeCard =
+        event is! PermanentEvent && getAttendeesMap()[myProfile.id] != true;
 
     final isEditingTools = useState(false);
 
@@ -171,10 +173,11 @@ class EventViewer extends HookConsumerWidget {
                       width: 8,
                     ),
                     AttendeesButton(
-                      event.mapOrNull(
+                      attendeesMap: event.mapOrNull(
                         punctual: (punctualEvent) => punctualEvent.attendeesMap,
                         stay: (stayEvent) => stayEvent.attendeesMap,
                       )!,
+                      profileList: ref.watch(profileListProvider(tribuId)),
                       readOnly: !selected,
                       onTap: () {
                         toolPageListNotifier.push(
@@ -194,8 +197,7 @@ class EventViewer extends HookConsumerWidget {
                   tribuId: tribuId,
                   event: event,
                   isExpanded: selected,
-                  willAttend:
-                      getAttendeesMap()[FirebaseAuth.instance.currentUser!.uid],
+                  willAttend: getAttendeesMap()[myProfile.id],
                 )
               ],
               if (!showPlannedToComeCard) ...[
@@ -313,13 +315,15 @@ class InvitationCard extends HookConsumerWidget {
 }
 
 class AttendeesButton extends StatelessWidget {
-  const AttendeesButton(
-    this.attendeesMap, {
+  const AttendeesButton({
+    required this.attendeesMap,
+    required this.profileList,
     super.key,
     this.onTap,
     this.readOnly = false,
   });
   final Map<String, bool?> attendeesMap;
+  final List<Profile> profileList;
   final void Function()? onTap;
   final bool readOnly;
 
@@ -327,7 +331,7 @@ class AttendeesButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TribuCardButton(
       label: Text(
-        '${attendeesMap.values.where((element) => element ?? false).length} / ${attendeesMap.length}',
+        '${attendeesMap.values.where((element) => element ?? false).length} / ${profileList.length}',
         style: Theme.of(context).textTheme.labelLarge!.copyWith(
               color: Theme.of(context).colorScheme.primary,
             ),

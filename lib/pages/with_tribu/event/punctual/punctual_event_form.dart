@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:encrypt/encrypt.dart' as encrypt;
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -12,7 +11,6 @@ import 'package:tribu/data/tribu/tribu.providers.dart';
 import 'package:tribu/generated/l10n.dart';
 import 'package:tribu/widgets/card_button.dart';
 import 'package:tribu/widgets/date_proposal_button.dart';
-import 'package:tribu/widgets/profile/profile_dropdown_multiple.dart';
 import 'package:tribu/widgets/text_field.dart';
 
 class PunctualEventForm extends HookConsumerWidget {
@@ -34,14 +32,11 @@ class PunctualEventForm extends HookConsumerWidget {
 
     // Attendees list
     final tribuId = ref.watch(tribuIdSelectedProvider)!;
-    final profileList = ref.watch(profileListProvider(tribuId));
-    final me = FirebaseAuth.instance.currentUser!.uid;
+    final profileListNotifier =
+        ref.watch(profileListProvider(tribuId).notifier);
+    final me = profileListNotifier.getMyProfile();
     final attendeesMapState = useState(
-      event?.attendeesMap ??
-          {
-            for (var profile in profileList)
-              profile.id: profile.id == me ? true : null
-          },
+      event?.attendeesMap ?? {me.id: true},
     );
     final eventEncryptionKey =
         useState(encrypt.Key.fromSecureRandom(32).base64);
@@ -175,7 +170,8 @@ class PunctualEventForm extends HookConsumerWidget {
               onDateSelected: addDateProposal,
             ),
           ],
-          const SizedBox(height: 16),
+          // DISABLE ATTENDEES SELECTION FOR NOW
+          /* const SizedBox(height: 16),
 
           ProfileDropdown(
             decoration: InputDecoration(
@@ -192,7 +188,7 @@ class PunctualEventForm extends HookConsumerWidget {
               final newSet = selectionSet.difference(currentSet);
               final oldSet = currentSet.difference(selectionSet);
               for (final userId in oldSet) {
-                if (userId != FirebaseAuth.instance.currentUser!.uid) {
+                if (userId != me.id) {
                   currentAttendeesMap.remove(userId);
                 }
               }
@@ -202,7 +198,7 @@ class PunctualEventForm extends HookConsumerWidget {
               attendeesMapState.value = Map.from(currentAttendeesMap);
               whenChanged();
             },
-          )
+          ) */
         ],
       ),
     );

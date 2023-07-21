@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -47,8 +46,7 @@ class ExpensesResumeViewer extends HookConsumerWidget {
     final profileNotifier = ref.watch(
       profileListProvider(ref.read(tribuIdSelectedProvider)!).notifier,
     );
-    final currentUserProfile =
-        profileNotifier.getProfile(FirebaseAuth.instance.currentUser!.uid);
+    final currentUserProfile = profileNotifier.getMyProfile();
 
     final userExpenseResume = expenseResumeList.firstWhereOrNull(
       (element) => element.profileId == currentUserProfile.id,

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tribu/data/manager.abstract.dart';
@@ -41,6 +42,7 @@ class ProfileListNotifier extends StateNotifier<List<Profile>> with Manager {
               (element) =>
                   element.mergedInto == null && element.disabled == null,
             )
+            .sortedBy((element) => element.name)
             .toList();
       }).cancel,
     );

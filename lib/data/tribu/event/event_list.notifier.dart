@@ -3,11 +3,8 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:collection/collection.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:rxdart/streams.dart';
 import 'package:tribu/data/manager.abstract.dart';
 import 'package:tribu/data/tribu/event/event.model.dart';
 import 'package:tribu/data/tribu/event/event_date_proposal/event_date_proposal.model.dart';
@@ -17,23 +14,9 @@ import 'package:tribu/utils/encryption/encryption.dart';
 
 class EventListNotifier extends StateNotifier<List<Event>> with Manager {
   factory EventListNotifier(String tribuId, String encryptionKey) {
-    final permanentEventStream = getCollection(tribuId, encryptionKey)
-        .where(
-          'type',
-          isEqualTo: 'permanent',
-        )
+    final stream = getCollection(tribuId, encryptionKey)
         .snapshots()
         .map((event) => event.docs.map((e) => e.data()).toList());
-    final otherEventWhereInvited = getCollection(tribuId, encryptionKey)
-        .orderBy(
-          'attendeesMap.${FirebaseAuth.instance.currentUser!.uid}',
-        )
-        .snapshots()
-        .map((event) => event.docs.map((e) => e.data()).toList());
-    final stream = CombineLatestStream(
-      [permanentEventStream, otherEventWhereInvited],
-      (values) => values.flattened.toList(),
-    );
     final component = EventListNotifier._(tribuId, encryptionKey, stream);
 
     return component;

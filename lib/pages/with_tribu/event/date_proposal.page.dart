@@ -1,5 +1,4 @@
 import 'package:collection/collection.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
@@ -30,6 +29,9 @@ class DateProposalListPage extends HookConsumerWidget {
     )!;
 
     final eventListNotifier = ref.watch(eventListProvider(tribuId).notifier);
+    final myProfile = ref.watch(ownProfileProvider(tribuId));
+    final profileListNotifier =
+        ref.watch(profileListProvider(tribuId).notifier);
 
     return EventScaffold(
       event: event,
@@ -54,8 +56,8 @@ class DateProposalListPage extends HookConsumerWidget {
               itemCount: dateProposalList.length,
               itemBuilder: (context, index) {
                 final dateProposal = dateProposalList[index];
-                final voted = dateProposal.attendeeVoteList
-                    .contains(FirebaseAuth.instance.currentUser!.uid);
+                final voted =
+                    dateProposal.attendeeVoteList.contains(myProfile.id);
                 return Row(
                   children: [
                     Expanded(
@@ -100,14 +102,11 @@ class DateProposalListPage extends HookConsumerWidget {
                       onPressed: () {
                         final newAttendeeVoteList = voted
                             ? dateProposal.attendeeVoteList.whereNot(
-                                (element) =>
-                                    element ==
-                                    FirebaseAuth.instance.currentUser!.uid,
+                                (profileId) =>
+                                    profileListNotifier.getProfile(profileId) ==
+                                    myProfile,
                               )
-                            : [
-                                ...dateProposal.attendeeVoteList,
-                                FirebaseAuth.instance.currentUser!.uid
-                              ];
+                            : [...dateProposal.attendeeVoteList, myProfile.id];
                         eventListNotifier.updateEventDateProposalList(
                           event,
                           dateProposalList
