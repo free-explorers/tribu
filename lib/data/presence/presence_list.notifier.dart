@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
@@ -85,9 +86,11 @@ class PresenceListNotifier extends StateNotifier<List<Presence>>
   final TribuListNotifier tribuListNotifier;
   final TribuIdSelectedNotifier tribuIdSelectedNotifier;
   List<String> get memberIdList {
-    final tribu =
-        tribuListNotifier.value.firstWhere((tribu) => tribu.id == tribuId);
-
+    final tribu = tribuListNotifier.state
+        .firstWhereOrNull((tribu) => tribu.id == tribuId);
+    if (tribu == null) {
+      throw Exception('Cant find tribu $tribuId');
+    }
     return tribu.authorizedMemberList
         .where((element) => element != FirebaseAuth.instance.currentUser!.uid)
         .toList();
