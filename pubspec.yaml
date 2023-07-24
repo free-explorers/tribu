@@ -161,6 +161,7 @@ flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
   image_path: "assets/logo_padded_1152_bg.png"
+  image_path_ios: "assets/logo_1152_bg.png"
   adaptive_icon_background: "#003e51"
   adaptive_icon_foreground: "assets/logo_padded_1152.png"
   remove_alpha_ios: true
@@ -170,7 +171,7 @@ flutter_intl:
 
 flutter_native_splash:
   color: "#003e51"
-  image_ios: assets/logo_1152_x4.png
+  image_ios: assets/logo_1152.png
   image: assets/logo_1152.png
   android_12:
     image: assets/logo_1152_x4.png
