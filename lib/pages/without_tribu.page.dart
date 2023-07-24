@@ -23,10 +23,7 @@ class WithoutTribuPage extends HookConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Padding(
-                padding: const EdgeInsets.all(48),
-                child: Image.asset('assets/logo_large.png'),
-              ),
+              Image.asset('assets/logo.png'),
               const SizedBox(height: 16),
               FilledButton(
                 style: ButtonStyle(

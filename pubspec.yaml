@@ -44,7 +44,7 @@ dependencies:
   flutter_webrtc: ^0.9.35
   web_socket_channel: ^2.4.0
   path_provider: ^2.0.9
-  flutter_native_splash: ^2.2.3
+  flutter_native_splash: ^2.3.1
   json_annotation: ^4.8.0
   rxdart: ^0.27.1
   collection: ^1.16.0
@@ -157,20 +157,21 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-flutter_icons:
+flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/logo_bg_xl.png"
-  adaptive_icon_background: "#013d50"
-  adaptive_icon_foreground: "assets/logo2.png"
+  image_path: "assets/logo_padded_1152_bg.png"
+  adaptive_icon_background: "#003e51"
+  adaptive_icon_foreground: "assets/logo_padded_1152.png"
   remove_alpha_ios: true
 
 flutter_intl:
   enabled: true
 
 flutter_native_splash:
-  color: "#013d50"
-  image: assets/logo_no_bg_1152.png
+  color: "#003e51"
+  image_ios: assets/logo_1152_x4.png
+  image: assets/logo_1152.png
   android_12:
-    image: assets/logo_no_bg_1152.png
-    color: "#013d50"
+    image: assets/logo_1152_x4.png
+    color: "#003e51"
