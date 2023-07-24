@@ -214,6 +214,21 @@ class ItemWidget extends HookConsumerWidget {
     final pageListNotifier = ref.watch(pageListProvider.notifier);
     final newValue = useState(item.label);
 
+    final editing = useState(false);
+    final focusNode = useFocusNode();
+    useEffect(() {
+      void cb() {
+        if (!focusNode.hasPrimaryFocus) {
+          editing.value = false;
+        }
+      }
+
+      focusNode.addListener(cb);
+      return () {
+        focusNode.removeListener(cb);
+      };
+    });
+
     final debouncer = useMemoized(() => Debouncer(milliseconds: 500), []);
     return Dismissible(
       key: Key(item.id!),
@@ -243,20 +258,55 @@ class ItemWidget extends HookConsumerWidget {
       child: Card(
         child: ListTile(
           leading: item.checked ? Icon(MdiIcons.check) : null,
-          title: TextFormField(
-            maxLines: null,
-            textInputAction: TextInputAction.done,
-            initialValue: item.label,
-            decoration: const InputDecoration(border: InputBorder.none),
-            onChanged: (value) {
-              newValue.value = value;
-              debouncer.run(() {
-                listToolManager
-                    .updateItem(item.copyWith(label: newValue.value));
-              });
+          //In order to allow dissmissible drag event to occur we need to
+          //disable pointer events on textFormField but to allow the tap to
+          //focus to happend we use a hack to replicate
+          //the tap on it when needed
+          title: GestureDetector(
+            onTapUp: (details) {
+              if (editing.value == false) {
+                editing.value = true;
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  WidgetsBinding.instance.handlePointerEvent(
+                    PointerDownEvent(
+                      position: Offset(
+                        details.globalPosition.dx,
+                        details.globalPosition.dy,
+                      ),
+                    ),
+                  );
+                  WidgetsBinding.instance.handlePointerEvent(
+                    PointerUpEvent(
+                      position: Offset(
+                        details.globalPosition.dx,
+                        details.globalPosition.dy,
+                      ),
+                    ),
+                  );
+                });
+              }
             },
-            onFieldSubmitted: (value) =>
-                listToolManager.updateItem(item.copyWith(label: value)),
+            child: AbsorbPointer(
+              absorbing: !editing.value,
+              child: TextFormField(
+                focusNode: focusNode,
+                maxLines: null,
+                textInputAction: TextInputAction.done,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                ),
+                initialValue: item.label,
+                onChanged: (value) {
+                  newValue.value = value;
+                  debouncer.run(() {
+                    listToolManager
+                        .updateItem(item.copyWith(label: newValue.value));
+                  });
+                },
+                onFieldSubmitted: (value) =>
+                    listToolManager.updateItem(item.copyWith(label: value)),
+              ),
+            ),
           ),
           trailing: Builder(
             builder: (context) {
