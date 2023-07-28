@@ -28,7 +28,7 @@ class MainDrawer extends HookConsumerWidget {
               automaticallyImplyLeading: false,
               title: Row(
                 children: [
-                  Image.asset('assets/logo2.png', width: 56),
+                  Image.asset('assets/logo.png', width: 32),
                   Text(
                     'Tribu',
                     style: TextStyle(
