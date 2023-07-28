@@ -40,7 +40,6 @@
   "viewAll": "View all",
   "balanceAction": "Smart balance",
   "newExpenseAction": "Add an expense",
-  "editAction": "Edit",
   "deleteAction": "Delete",
   "expensesSubHeader": "Expenses",
   "editExpenseAction": "Edit expense",

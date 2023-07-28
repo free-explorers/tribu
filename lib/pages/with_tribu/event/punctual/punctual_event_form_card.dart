@@ -51,7 +51,7 @@ class PunctualEventFormCard extends HookConsumerWidget {
               : () => Navigator.pop(context, newEventState.value),
           child: Text(
             event != null
-                ? S.of(context).editAction
+                ? S.of(context).updateAction
                 : S.of(context).createAction,
           ),
         )

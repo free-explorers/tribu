@@ -50,7 +50,7 @@ class StayEventFormCard extends HookConsumerWidget {
               : () => Navigator.pop(context, eventState.value),
           child: Text(
             event != null
-                ? S.of(context).editAction
+                ? S.of(context).updateAction
                 : S.of(context).createAction,
           ),
         )

@@ -103,7 +103,7 @@ class EventViewer extends HookConsumerWidget {
                                     (context) => EventFormModal(
                                       event: event,
                                     ),
-                                    title: S.of(context).newEventAction,
+                                    title: S.of(context).editEventAction,
                                   );
                                   if (eventModified != null) {
                                     await ref
