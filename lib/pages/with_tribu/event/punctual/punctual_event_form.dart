@@ -282,6 +282,13 @@ class PunctualEventForm extends HookConsumerWidget {
                   : () => showTimePicker(
                         context: context,
                         initialTime: TimeOfDay.fromDateTime(DateTime.now()),
+                        builder: (context, child) {
+                          return Theme(
+                            data:
+                                Theme.of(context).copyWith(useMaterial3: false),
+                            child: child!,
+                          );
+                        },
                       ).then((timeSelected) {
                         if (timeSelected != null) {
                           onTimeSelected?.call(timeSelected);
