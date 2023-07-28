@@ -69,7 +69,7 @@ class PunctualEventForm extends HookConsumerWidget {
       PunctualDateProposal original,
       PunctualDateProposal updated,
     ) {
-      final currentList = dateProposalListState.value;
+      final currentList = [...dateProposalListState.value];
       final currentIndex = currentList.indexOf(original);
       currentList[currentIndex] = updated;
       dateProposalListState.value = [...currentList];
@@ -215,8 +215,8 @@ class PunctualEventForm extends HookConsumerWidget {
     Future<void> onTap() => showDatePicker(
           context: context,
           initialDate: dateProposal?.date ?? DateTime.now(),
-          firstDate: DateTime.now(),
-          lastDate: DateTime.now().add(const Duration(days: 10000)),
+          firstDate: DateTime.now().subtract(const Duration(days: 365 * 10)),
+          lastDate: DateTime.now().add(const Duration(days: 365 * 10)),
         ).then((dateSelected) {
           if (dateSelected != null) {
             onDateSelected?.call(dateSelected);
