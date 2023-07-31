@@ -95,18 +95,32 @@ class MessageMapNotifier extends StateNotifier<Map<String, Message>>
       unawaited(receiveNewMessage(msg));
     }
 
-    final firestoreStream = getCollection(tribuId, encryptionKey)
-        .where(
-          'receivedBy.${FirebaseAuth.instance.currentUser!.uid}',
-          isEqualTo: false,
-        )
-        .snapshots();
-
-    _firestoreStreamSubscription = firestoreStream.listen((list) {
-      for (final element in list.docs) {
-        receiveNewMessage(element.data());
+    Future<void> fetchLastMessages() async {
+      var collection = getCollection(tribuId, encryptionKey).orderBy('sentAt');
+      final storage = await Storage.getSharedPreferences();
+      final lastFetchMs = storage.getInt('${tribuId}_messages_fetched_at');
+      if (lastFetchMs != null) {
+        collection = collection
+            .startAfter([DateTime.fromMillisecondsSinceEpoch(lastFetchMs)]);
       }
-    });
+
+      final firestoreStream = collection.snapshots();
+
+      _firestoreStreamSubscription = firestoreStream.listen((list) {
+        if (list.docs.isEmpty) return;
+        for (final element in list.docs) {
+          receiveNewMessage(element.data());
+        }
+        storage.setInt(
+          '${tribuId}_messages_fetched_at',
+          DateTime.now().millisecondsSinceEpoch,
+        );
+        _firestoreStreamSubscription.cancel();
+        fetchLastMessages();
+      });
+    }
+
+    await fetchLastMessages();
     onDisposeList.add(_firestoreStreamSubscription.cancel);
     return true;
   }
