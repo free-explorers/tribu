@@ -118,7 +118,8 @@ class MessageMapNotifier extends StateNotifier<Map<String, Message>>
     );
     if (backgroundMessageBox.isNotEmpty) {
       for (final message in backgroundMessageBox.values) {
-        await receiveNewMessage(message);
+        // dont wait this because it's wait for initialized it self that loop
+        unawaited(receiveNewMessage(message));
       }
       await backgroundMessageBox.clear();
     }
