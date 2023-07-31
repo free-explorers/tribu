@@ -87,11 +87,9 @@ class NotificationTool {
     switch (remoteMessage.data['type']) {
       case 'message':
         await handleMessageNotification(notificationPlugin, remoteMessage);
-        break;
 
       case 'newMember':
         await handleNewMemberNotification(notificationPlugin, remoteMessage);
-        break;
     }
   }
 
@@ -109,10 +107,10 @@ class NotificationTool {
           ..update(
             'sentAt',
             (value) {
-              value = value as Map<String, int>;
+              value = value as Map<String, dynamic>;
               return Timestamp(
-                value['_seconds']!,
-                value['_nanoseconds']!,
+                value['_seconds']! as int,
+                value['_nanoseconds']! as int,
               );
             },
           );
@@ -246,10 +244,10 @@ class NotificationTool {
           ..update(
             'createdAt',
             (value) {
-              value = value as Map<String, int>;
+              value = value as Map<String, dynamic>;
               return Timestamp(
-                value['_seconds']!,
-                value['_nanoseconds']!,
+                value['_seconds']! as int,
+                value['_nanoseconds']! as int,
               );
             },
           );
