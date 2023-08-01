@@ -96,7 +96,9 @@ class MessageMapNotifier extends StateNotifier<Map<String, Message>>
     }
 
     Future<void> fetchLastMessages() async {
-      var collection = getCollection(tribuId, encryptionKey).orderBy('sentAt');
+      var collection = getCollection(tribuId, encryptionKey)
+          .where('author', isNotEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .orderBy('sentAt');
       final storage = await Storage.getSharedPreferences();
       final lastFetchMs = storage.getInt('${tribuId}_messages_fetched_at');
       if (lastFetchMs != null) {
