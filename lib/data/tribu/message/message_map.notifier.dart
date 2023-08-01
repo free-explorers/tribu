@@ -113,7 +113,7 @@ class MessageMapNotifier extends StateNotifier<Map<String, Message>>
         }
         storage.setInt(
           '${tribuId}_messages_fetched_at',
-          DateTime.now().millisecondsSinceEpoch,
+          list.docs.last.data().sentAt.millisecondsSinceEpoch,
         );
         _firestoreStreamSubscription.cancel();
         fetchLastMessages();
