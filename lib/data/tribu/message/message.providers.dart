@@ -16,11 +16,12 @@ final messageMapProvider = StateNotifierProvider.family
   final mediaManager = ref.watch(mediaManagerProvider(tribuId).notifier);
   final tribuListNotifier = ref.watch(tribuListProvider.notifier);
   final notifier = MessageMapNotifier(
-      tribuId: tribuId,
-      encryptionKey: encryptionKey,
-      profileManager: profileListNotifier,
-      mediaManager: mediaManager,
-      tribuListNotifier: tribuListNotifier,);
+    tribuId: tribuId,
+    encryptionKey: encryptionKey,
+    profileManager: profileListNotifier,
+    mediaManager: mediaManager,
+    tribuListNotifier: tribuListNotifier,
+  );
   ref.onDispose(notifier.dispose);
 
   return notifier;
@@ -30,8 +31,10 @@ final messageListProvider = Provider.family.autoDispose<List<Message>, String>(
   (ref, tribuId) {
     final messageMap = ref.watch(messageMapProvider(tribuId));
     return messageMap.values.toList()
-      ..sort((Message messageA, Message messageB) =>
-          messageB.sentAt.compareTo(messageA.sentAt),);
+      ..sort(
+        (Message messageA, Message messageB) =>
+            messageB.sentAt.compareTo(messageA.sentAt),
+      );
   },
 );
 
@@ -54,22 +57,26 @@ final messageNotificationObserver =
           .updateTribuInfo(tribuInfo.copyWith(lastRead: DateTime.now()));
     } else {
       final unReadMessageList = messageList
-          .where((unreadMessage) =>
-              unreadMessage.author != currentUser!.uid &&
-              unreadMessage.author != 'tribu' &&
-              unreadMessage.sentAt.millisecondsSinceEpoch >
-                  tribuInfo.lastRead.millisecondsSinceEpoch,)
+          .where(
+            (unreadMessage) =>
+                unreadMessage.author != currentUser!.uid &&
+                unreadMessage.author != 'tribu' &&
+                unreadMessage.sentAt.millisecondsSinceEpoch >
+                    tribuInfo.lastRead.millisecondsSinceEpoch,
+          )
           .toList()
           .reversed
           .toList();
       if (unReadMessageList.isNotEmpty) {
         tribuInfoMapNotifier.updateTribuInfo(
-            tribuInfo.copyWith(unreadMessage: unReadMessageList.length),);
+          tribuInfo.copyWith(unreadMessage: unReadMessageList.length),
+        );
         NotificationTool.showMessageNotification(
-            notificationPlugin,
-            ref.read(tribuProvider(tribuId))!,
-            unReadMessageList,
-            profileListNotifier,);
+          notificationPlugin,
+          ref.read(tribuProvider(tribuId))!,
+          unReadMessageList,
+          profileListNotifier,
+        );
       }
     }
   });
@@ -79,7 +86,9 @@ final messageNotificationObserver =
 
 final unreadMessageCounterOfTribu = Provider.family<int, String>(
   (ref, tribuId) {
-    return ref.watch(tribuInfoMapProvider
-        .select((value) => value[tribuId]?.unreadMessage ?? 0),);
+    return ref.watch(
+      tribuInfoMapProvider
+          .select((value) => value[tribuId]?.unreadMessage ?? 0),
+    );
   },
 );

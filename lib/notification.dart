@@ -49,6 +49,7 @@ class NotificationTool {
     return flutterLocalNotificationsPlugin;
   }
 
+  @pragma('vm:entry-point')
   static Future<void> firebaseMessagingBackgroundHandler(
     RemoteMessage message,
   ) async {
